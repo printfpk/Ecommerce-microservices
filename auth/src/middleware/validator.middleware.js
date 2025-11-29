@@ -60,9 +60,52 @@ const loginUserValidations = [
     }
 ]
 
+const addUserAddressValidations = [
+    body('street')
+        .isString()
+        .withMessage('Street must be a string')
+        .notEmpty()
+        .withMessage('Street is required'),
+    body('city')
+        .isString()
+        .withMessage('City must be a string')
+        .notEmpty()
+        .withMessage('City is required'),
+    body('state')
+        .isString()
+        .withMessage('State must be a string')
+        .notEmpty()
+        .withMessage('State is required'),
+    body('pincode')
+        .isString()
+        .withMessage('Pincode must be a string')
+        .notEmpty()
+        .withMessage('Pincode is required')
+        .bail()
+        .matches(/^\d{4,}$/)
+        .withMessage('Pincode must be at least 4 digits'),
+    body('country')
+        .isString()
+        .withMessage('Country must be a string')
+        .notEmpty()
+        .withMessage('Country is required'),
+    body('phone')
+        .optional()
+        .isString()
+        .withMessage('Phone must be a string')
+        .bail()
+        .matches(/^\d{10}$/)
+        .withMessage('Phone must be a valid 10-digit number'),
+    body('isDefault')
+        .optional()
+        .isBoolean()
+        .withMessage('isDefault must be a boolean'),
+    respondWithValidationErrors
+]
 
 module.exports = {
     registerUserValidations,
     loginUserValidations,
+    addUserAddressValidations
     
 };
