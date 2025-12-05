@@ -1,4 +1,3 @@
-const path = require('path');
 const request = require('supertest');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
@@ -38,6 +37,7 @@ describe('POST /api/products', () => {
 
     it('creates a product and uploads images', async () => {
         const token = jwt.sign({ id: new mongoose.Types.ObjectId().toHexString(), role: 'seller' }, process.env.JWT_SECRET);
+        const fakeImage = Buffer.from('fake-image-content');
         const res = await request(app)
             .post('/api/products')
             .set('Authorization', `Bearer ${token}`)
@@ -45,7 +45,7 @@ describe('POST /api/products', () => {
             .field('description', 'Nice one')
             .field('priceAmount', '99.99')
             .field('priceCurrency', 'USD')
-            .attach('images', path.join(__dirname, 'fixtures', 'sample.jpg'));
+            .attach('images', fakeImage, 'sample.jpg');
 
         expect(res.status).toBe(201);
         expect(res.body?.data?.title).toBe('Test Product');
