@@ -1,10 +1,12 @@
-const userModel = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const redis = require("../db/redis");
+const userModel = require('../models/user.model');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const redis = require("../db/redis")
+
+
 
 async function registerUser(req, res) {
-   try {
+    try {
         const { username, email, password, fullName: { firstName, lastName }, role } = req.body;
 
         const isUserAlreadyExists = await userModel.findOne({
@@ -29,6 +31,8 @@ async function registerUser(req, res) {
             role: role || 'user' // default role is 'user'
         })
 
+
+        
 
         const token = jwt.sign({
             id: user._id,
@@ -115,7 +119,6 @@ async function getCurrentUser(req, res) {
     });
 }
 
-
 async function logoutUser(req, res) {
 
     const token = req.cookies.token;
@@ -148,7 +151,6 @@ async function getUserAddresses(req, res) {
         addresses: user.addresses
     });
 }
-
 
 async function addUserAddress(req, res) {
 
@@ -213,12 +215,13 @@ async function deleteUserAddress(req, res) {
     });
 
 }
+
 module.exports = {
-  registerUser,
-  loginUser,
- getCurrentUser,
- logoutUser,
- getUserAddresses,
- addUserAddress,
- deleteUserAddress
-};
+    registerUser,
+    loginUser,
+    getCurrentUser,
+    logoutUser,
+    getUserAddresses,
+    addUserAddress,
+    deleteUserAddress
+}
