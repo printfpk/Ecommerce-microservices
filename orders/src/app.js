@@ -1,5 +1,5 @@
 const express = require('express');
-const cookierParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const orderRoutes = require('./routes/order.routes');
 
 const app = express();
